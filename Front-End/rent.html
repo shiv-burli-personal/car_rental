@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Rental</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="container mt-4">
+  <h2>Book a Rental</h2>
+  <form id="rentalForm">
+    <input type="text" class="form-control mb-2" placeholder="Rental ID" id="rental_id" required>
+    <input type="text" class="form-control mb-2" placeholder="Customer ID" id="customer_id" required>
+    <input type="text" class="form-control mb-2" placeholder="Car ID" id="car_id" required>
+    <input type="date" class="form-control mb-2" id="rental_date" required>
+    <input type="date" class="form-control mb-2" id="return_date" required>
+    <input type="text" class="form-control mb-2" placeholder="Rental Status" id="rental_status" required>
+    <input type="number" class="form-control mb-3" placeholder="Rent Period (in days)" id="rent_period" required>
+    <button type="submit" class="btn btn-success">Book Rental</button>
+  </form>
+
+  <script>
+    const rentalForm = document.getElementById("rentalForm");
+    rentalForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const payload = {
+        rental_id: document.getElementById("rental_id").value,
+        customer_id: document.getElementById("customer_id").value,
+        car_id: document.getElementById("car_id").value,
+        rental_date: document.getElementById("rental_date").value,
+        return_date: document.getElementById("return_date").value,
+        rental_status: document.getElementById("rental_status").value,
+        rent_period: parseInt(document.getElementById("rent_period").value)
+      };
+
+      fetch("http://localhost:8000/rentals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message))
+      .catch(err => alert("Error booking rental"));
+    });
+  </script>
+</body>
+</html>

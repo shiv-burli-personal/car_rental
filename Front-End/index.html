@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Cars</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="container mt-4">
+  <h2 class="mb-4">Available Cars</h2>
+  <div id="carList" class="row"></div>
+
+  <script>
+    fetch("http://localhost:8000/cars")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("carList");
+        data.forEach(car => {
+          const card = document.createElement("div");
+          card.className = "col-md-4 mb-3";
+          card.innerHTML = `
+            <div class="card p-3">
+              <h5>${car.model}</h5>
+              <p>License: ${car.license_plate}</p>
+              <p>Price: ₹${car.daily_rental_price}/day</p>
+              <p>Status: ${car.status}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      });
+      
+  </script>
+</body>
+</html>
